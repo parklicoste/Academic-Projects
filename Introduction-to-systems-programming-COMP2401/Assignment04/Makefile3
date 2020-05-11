@@ -1,0 +1,14 @@
+multiSpawn:	multiSpawn.o isPrime
+		g++ -o multiSpawn multiSpawn.o
+
+isPrime:	isPrime.o
+	g++ -o isPrime isPrime.o
+
+isPrime.o:	isPrime.c
+	g++ -c isPrime.c
+
+multiSpawn.o:	multiSpawn.c
+	g++ -c multiSpawn.c
+
+clean:
+	rm -f *.o multiSpawn isPrime

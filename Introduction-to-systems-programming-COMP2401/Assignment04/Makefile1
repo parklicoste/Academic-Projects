@@ -1,0 +1,16 @@
+singleMorph:	singlePrime.o isPrime
+	g++ -o singleMorph singlePrime.o
+
+isPrime:	isPrime.o
+		g++ -o isPrime isPrime.o
+
+isPrime.o:	isPrime.c
+		g++ -c isPrime.c
+
+singlePrime.o:	singlePrime.c
+	g++ -c singlePrime.c
+
+
+
+clean:
+	rm -f *.o singleMorph isPrime

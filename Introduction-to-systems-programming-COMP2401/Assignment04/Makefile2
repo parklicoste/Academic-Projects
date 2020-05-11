@@ -1,0 +1,13 @@
+singleSpawn:	singleSpawn.o isPrime
+	g++ -o singleSpawn singleSpawn.o
+
+isPrime:	isPrime.o
+		g++ -o isPrime isPrime.o
+
+isPrime.o:	isPrime.c
+		g++ -c isPrime.c
+
+singleSpawn.o:	singleSpawn.c
+		g++ -c singleSpawn.c
+clean:
+		rm -f *.o singleSpawn isPrime

@@ -1,0 +1,11 @@
+Here we are compiling the encrypt program given. There are two files for each program ( 1. encrypt.c and 2.b bit_manipulation.c).Before compiling we are completing the code in the main program and adding additional functions.
+
+Commands for compiling are:
+gcc -o encrypt encrypt.c bit_manipulation
+
+Command for compiling the debugger is :
+gcc -g -o encrypt encrypt.c bit_manipulation.c
+
+Example is "The boy is cool"
+key: 63
+Encrypted message is :- -51 -63 -70 -97 102 -63 -2 -47 56 -63 -52 -75 86 -61 -64 
