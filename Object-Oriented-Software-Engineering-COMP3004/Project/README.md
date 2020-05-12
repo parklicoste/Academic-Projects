@@ -1,4 +1,4 @@
-# COMP3004
+# DENAS PAIN RELEIVER
 There is a final project in this course,
 
 The program is based on Developing and Testing a MCT device simulator,
