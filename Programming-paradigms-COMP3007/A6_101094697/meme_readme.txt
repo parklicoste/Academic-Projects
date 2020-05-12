@@ -1,0 +1,1 @@
+Meme 1 : The meme represents the complexity of trees. While going to bed in night with his wife he is on the other side of bed and thinking really hard about something. But the person's wife thinks that he is not interested in her anymore instead a person is just trying to solve a scheme expression.

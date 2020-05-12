@@ -1,0 +1,45 @@
+
+
+Khushal Kumar Singh
+101094697
+
+%========== Testing for Question 2C=========
+
+?-slice([0,1,2,3,4,5,6,7,8,9],3,8,R).   %Expected: R=[3,4,5,6,7].
+                                        R=[3,4,5,6,7].
+
+?-slice([0,1,2,3,4,5,6,7,8,9],5,25,R).  %Expected: R=[5,6,7,8,9].
+                                        R=[5,6,7,8,9].
+
+?-slice([0,1,2,3,4,5],-10,3,R).  %Expected: R=[0,1,2].
+                                  R=[0,1,2].
+
+
+%========== Testing for Question 5A=========
+
+?- connected(a,c).    %Expected: True
+                      true
+
+%?- connected(a,q).   %Expected: false
+                      false
+
+%========== Testing for Question 5B=========
+
+?- listForPath(a,d,L).
+
+%Expected: L = [edge(a,b,2),edge(b,c,2),edge(c,d,2)].
+           L = [edge(a,b,2),edge(b,c,2),edge(c,d,2)].
+
+%========== Testing for Question 5C=========
+
+?- pathLength(a,d,R). %Expected R = 6.
+                        R = 6.
+
+
+%========== Testing for Question 5D=========
+
+?- onPath(a,d,c). %Expected True.
+                    true
+
+?- onPath(a,c,d). %Expected False.
+                    false

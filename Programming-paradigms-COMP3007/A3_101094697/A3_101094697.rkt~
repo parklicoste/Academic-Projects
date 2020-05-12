@@ -1,0 +1,329 @@
+#lang scheme
+
+(display "QUESTION 1 A\n")
+
+(define square (lambda(x) (* x x)))
+(define double (lambda(x) (+ x x)))
+
+(define (compose f g) (lambda (x) (f (g x))))
+
+((compose square double) 3)
+
+((compose sqrt sqrt) 16)
+
+(display "QUESTION 1 B\n")
+
+(define (divisibleBy x)
+  (lambda (y) (if (= (remainder y  x) 0) #t #f)
+  ))
+
+(define mod3 (divisibleBy 3))
+(mod3 7)
+(mod3 9)
+
+
+
+(display "QUESTION 1 C\n")
+
+(define (newmap f)
+    (lambda (y)
+        (if (null? y) '() (cons (f (car y)) ( (newmap f) (cdr y) )))))
+
+
+(define double-mapper (newmap (lambda(x) (* x 2))))
+	(double-mapper '(1 2 3 4)) ;--> (2 4 6 8)
+	(double-mapper '(10 20 30)) ; --> (20 40 60)
+
+
+(display "QUESTION 1 D\n")
+
+(define (newfilter f)
+  (lambda (y)
+        (if (null? y) '() (if (f (car y)) (cons (car y) ((newfilter f) (cdr y))) ((newfilter f) (cdr y)) ))))
+
+(define evens-filter (newfilter (divisibleBy 2)))
+
+(evens-filter '(1 2 3 4 6 8 10 11 13 12 15))
+
+
+
+(define (range a b)
+  (if (> a b) '()
+      (cons a (range (+ a 1) b))))
+
+
+(display "QUESTION 1 E\n")
+
+;(define myfunc (newmap (lambda(x) (* x 2))) )
+;	(myfunc (range 1 20)) ; → (16 64 144 256 400)
+
+;(define myfunc1 (newmap (lambda(x)(* x x) (newfilter (divisibleBy 2)) )))
+;	(myfunc1 (range 1 20)) ; → (16 64 144 256 400)
+
+
+(define myfunc1  (lambda (x) ((newmap (lambda(x)(* x x))) ((newfilter (divisibleBy 4)) x))))
+	(myfunc1 (range 1 20)) ; → (16 64 144 256 400)
+
+
+
+(display "QUESTION 2 A\n")
+(define (repeat x n)
+  (if (> n 0) (cons x (repeat x (- n 1))) '() ))
+
+(repeat 'b' 5)
+
+
+(display "QUESTION 2 B\n")
+
+
+
+#|(define (get-element i L)
+  (if (= i 0) (car L)
+      (get-element (- i 1) (cdr L))))
+
+(define (len L)
+  (if (null? L) 0
+      (+ 1 (len (cdr L)))))
+
+
+(define (alternate list1 list2)
+  (define (helper i list1 list2) 
+    (if (and (>= i (len list1)) (>= i (len list1))) '()
+        (cond ((and (< i (len list1) (< i (len list2)))) (cons (get-element i list1) (get-element i list2)))
+              ((and (|#
+  
+;we are using professor's code here
+
+(define (append L1 L2)
+  (cond ((null? L1) L2)
+        (else (cons (car L1)
+               (append (cdr L1) L2)))))
+;(append (list 1 2 3 7 8)(list 4 5 6))
+
+(define (alternate list1 list2)
+  (cond ;((and (null? L1) (null? L2)) (append L1 L2))
+        ((null? list1) list2)
+        ((null? list2) list1)
+        (else (append (list (car list1) (car list2))
+               (alternate (cdr list1) (cdr list2))))))
+
+
+(alternate (list 1 2 3)(list 4 5 6))
+(alternate '(0 0 0 0) '(1 1 1 1 1 1))
+
+(display "QUESTION 2 C\n")
+(define (count x L)
+  (define (helper num x L)
+    (if (null? L) num
+        (if (eq? x (car L)) (helper (+ num 1) x (cdr L)) (helper num x (cdr L)))))
+  (helper 0 x L)
+  )
+
+(count 3 '(1 4 3 6 2 3 3 1 4 3 5 7))
+(count 'b '(4 b a 3 2 c b 1 b 2 d a))
+
+
+
+(display "QUESTION 2 D\n")
+
+
+(define (mode L)
+  (define (helper x L1 L2)
+    (cond ((null? L1) x)
+          ((> (count (car L1) L2) (count x L2)) (helper (car L1) (cdr L1) L2))
+          (else (helper x (cdr L1) L2))))
+  (helper (car L) L L))
+
+(mode '(a b a c a d d a b c a b))
+(mode '(c b a x 2 3 c 1 b 2 c a))
+
+
+;(define (decreasing L)
+
+(display "QUESTION 2 E\n")
+
+(define (consize L)
+  (define (helper prev L)
+    (cond ((and (null? (cdr L)) (not (< (car L) prev)))'())
+          ((and (null? (cdr L)) (< (car L) prev)) (cons (car L) '()))
+          ((< (car L) prev) (cons (car L) '()))
+          ((> (car L) (cadr L)) (cons (car L) (helper (car L) (cdr L))))
+          (else (helper (car L) (cdr L) ))
+          ))
+  (helper 0 L ))
+
+#|(define (decreasing L)
+  
+  (define next (if (null? (cdr L)) '() (cadr L)))
+  
+  (define (helper L prev)
+    (cond ((null? L) '())
+          ((or(> (car L) next) (< (car L) prev)) (list (cons (car L) (helper (cdr L) (car L))))
+          (else (helper (cdr L) (car L)))))
+  (helper (consize L) 0))|#
+
+
+
+
+      
+(consize '(1 2 3 4 5 6 7))
+(consize '(3 6 8 9 7 4 8 6 3))
+(consize '(7 6 5 4 8 5 2 5 1 5 2 1))
+
+;(decreasing '(1 2 3 4 5 6 7))
+;(decreasing '(3 6 8 9 7 4 8 6 3))
+;(decreasing '(7 6 5 4 8 5 2 5 1 5 2 1))
+
+
+(define (helper prev L)
+    (cond ((null? (cdr L)) (list (car L)))
+          ((> (car L) (cadr L)) (append (list (car L)) (helper (car L) (cdr L))))
+          ((< (car L) prev) (list (car L)))))
+
+(define (decreasing L)
+    (cond ((null? (cdr L)) '())
+          ((< (car L) (cadr L)) (decreasing (cdr L)))
+          ( else (cons (helper  0 L) (decreasing (cdr L)) ))))
+
+(decreasing '(3 6 8 9 7 4 8 6 3))
+(decreasing '(7 6 5 4 8 5 2 5 1 5 2 1))
+(decreasing '(1 2 3 4 5))
+
+(display "QUESTION 3 A\n")
+
+
+(define (treeReduce op ini T)
+  (cond ((null? T)  ini)
+        ((list? (car T)) (op ini (treeReduce op ini (car T)) (treeReduce op ini (cdr T))))
+        (else (op (car T) (treeReduce op ini (cdr T))))))
+
+(treeReduce + 0 '(1 (2 3)((4 5) 6 (7)((8 (9)) 10))))
+
+
+(display "QUESTION 3 B\n")
+
+(define (height L)
+  (define (helper h L)
+    (cond ((not (list? L)) 0)
+          ((null?  L) h)
+          ((list? (car L)) (helper (+ h 1) (car L)))
+          (else (helper h (cdr L))) ))
+  (helper 1 L)
+ )
+
+(height 'a)
+(height '(a))
+(height '(a (b) c))
+(height '(((((a(((b)))))))))
+
+(display "QUESTION 3 C\n")
+
+(define (flattenTree T)
+  (cond ((null? T) '())
+        ((list? (car T)) (append (flattenTree (car T)) (flattenTree (cdr T))))
+        (else (cons (car T) (flattenTree (cdr T))))))
+
+(flattenTree '(1 (2 3) ((4 5 6 (7)))(((8 (9))))))
+(flattenTree '(1 (2 3)((4 5) 6 (7)((8 (9)) 10))))
+
+(display "QUESTION 3 D\n")
+
+(define (scale-tree t x)
+  (cond ((null? t) '())
+        ((list? (car t)) (cons (scale-tree (car t) x)
+                               (scale-tree (cdr t) x)))
+        (else (cons (* x (car t))
+                    (scale-tree (cdr t) x)))))
+
+(define (treeMerge T1 T2)
+  (cond ((null? T1) T2) ;if first tree null then return other tree
+        ((null? T2) T1) ;if second tree null then first other tree
+        ((and (list? (car T1)) (not(list? (car T2)))) (cons (scale-tree (car T1) (car T2)) (treeMerge (cdr T1) (cdr T2)))) ; if car T1 is list and car T2 is sigle value then scale
+        ((and (list? (car T2)) (not(list? (car T1)))) (cons (scale-tree (car T2) (car T1)) (treeMerge (cdr T1) (cdr T2)))) ; if car T2 is list and car T1 is sigle value then scale
+        ((and (list? (car T2)) (list? (car T1))) (cons (treeMerge (car T1) (car T2)) (treeMerge (cdr T1) (cdr T2)))) ; both tree's car is list then cons of (send them as trees) + cdr part of both 
+        (else (cons (* (car T1) (car T2)) (treeMerge (cdr T1) (cdr T2)))))) ; else part both trees car is single element so multiply them
+
+(treeMerge '(2 (2 3)(4 5 ( 5 6 7))) '((5 (4 3)( 2 1))6 ( 7 8 )))
+
+;================HELPER FUNCTIONS====================
+(define-syntax stream-cons
+    (syntax-rules ()
+        ((stream-cons a b)(cons a (delay b)))))
+
+(define (stream-car stream) 
+    (car stream))
+		
+(define (stream-cdr stream)
+    (force (cdr stream)))
+
+;================END OF HELPER FUNCTIONS===============
+
+(display "QUESTION 4 A\n")
+
+(define (list->stream L)
+  (if (null? L) '() (stream-cons (car L) (list->stream (cdr L)))))
+
+(list->stream (range 1 10))
+
+
+(display "QUESTION 4 B\n")
+
+(define (stream->list strm n)
+  (define (helper strm x)
+    (cond ((null? strm) '())
+          ((>= x n) '())
+          (else (cons (stream-car strm) (helper (stream-cdr strm) (+ x 1)) ))))
+  (helper strm 0))
+    
+
+(stream->list (list->stream (range 1 10)) 5)
+
+
+
+
+(display "QUESTION 4 C\n")
+
+(define (factorial n)
+  (define (helper counter total)
+    (if (> counter n) total
+        (helper (+ counter 1)  (* total counter))))
+  (helper 1 1))
+
+
+(define (stream->factorials n)
+  (define (helper x)
+    (if (= x (- n 1)) '() (stream-cons (factorial x) (helper (+ x 1)))))
+  (helper 0))
+
+(define factorials (stream->factorials 1000))
+
+(stream->list factorials 10)
+
+
+(display "QUESTION 4 D\n")
+
+(define (prng seed)
+  (stream-cons (/ (+ (* 22695477 seed) 1.0) (expt 2 32)) (prng (- seed (/ (+ (* 22695477 seed) 1.0) (expt 2 32))))))
+(stream->list (prng 3) 5)
+  
+
+
+
+  
+  
+
+
+
+
+
+
+                                   
+  
+
+
+
+
+
+
+
+
